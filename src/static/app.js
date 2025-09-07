@@ -6,12 +6,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Function to fetch activities from API
   async function fetchActivities() {
+    activitiesList.innerHTML = "<p>Loading activities...</p>"; // Show loading message
     try {
       const response = await fetch("/activities");
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
       const activities = await response.json();
 
       // Clear loading message
       activitiesList.innerHTML = "";
+      activitySelect.innerHTML = '<option value="">-- Select an activity --</option>'; // Reset dropdown
 
       // Populate activities list
       Object.entries(activities).forEach(([name, details]) => {
@@ -20,11 +25,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
+        // Participants section
+        let participantsSection = "";
+        if (details.participants.length > 0) {
+          participantsSection = `
+            <div class="participants-section">
+              <p><strong>Participants:</strong></p>
+              <ul>
+                ${details.participants.map(email => `<li>${email}</li>`).join("")}
+              </ul>
+            </div>
+          `;
+        } else {
+          participantsSection = `
+            <div class="participants-section">
+              <p><strong>Participants:</strong> <span style="color:#888;">None yet</span></p>
+            </div>
+          `;
+        }
+
         activityCard.innerHTML = `
           <h4>${name}</h4>
           <p>${details.description}</p>
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
+          ${participantsSection}
         `;
 
         activitiesList.appendChild(activityCard);
