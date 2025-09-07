@@ -62,6 +62,10 @@ def signup_for_activity(activity_name: str, email: str):
     # Get the specific activity
     activity = activities[activity_name]
 
+    #check if already signed up, if so return message
+    if email in activity["participants"]:
+        return {"message": f"{email} is already signed up for {activity_name}"}
+
     # Add student
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
