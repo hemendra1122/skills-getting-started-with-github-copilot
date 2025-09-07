@@ -20,6 +20,8 @@ app.mount("/static", StaticFiles(directory=os.path.join(Path(__file__).parent,
           "static")), name="static")
 
 # In-memory activity database
+#add two more artistic activities
+
 activities = {
     "Chess Club": {
         "description": "Learn strategies and compete in chess tournaments",
@@ -38,9 +40,26 @@ activities = {
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
         "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+    },
+    "Art Club": {
+        "description": "Explore painting, drawing, and other visual arts",
+        "schedule": "Wednesdays, 4:00 PM - 5:30 PM",
+        "max_participants": 15,
+        "participants": ["lucas@mergington.edu"]
+    },
+    "Drama Society": {
+        "description": "Acting, stage production, and theater workshops",
+        "schedule": "Thursdays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": ["lucas@mergington.edu"]
+    },
+    "Social Service Club": {
+        "description": "Participate in community service and social work projects",
+        "schedule": "Saturdays, 10:00 AM - 12:00 PM",
+        "max_participants": 20,
+        "participants": []
     }
 }
-
 
 @app.get("/")
 def root():
